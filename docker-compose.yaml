@@ -1,0 +1,11 @@
+version: '3'
+services:
+  main:
+    build: .
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
