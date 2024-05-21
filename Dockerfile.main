@@ -1,4 +1,4 @@
-# Dockerfile
+# Dockerfile.main
 FROM golang:1.21
 
 WORKDIR /app
@@ -6,10 +6,8 @@ WORKDIR /app
 COPY . .
 
 RUN go mod download
+RUN go build -o main main.go
 
-RUN go build -o main .
-
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 49152
 
 CMD ["./main"]

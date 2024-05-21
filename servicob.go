@@ -43,7 +43,7 @@ type ErrorResponse struct {
 	Erro bool `json:"erro"`
 }
 
-func servicob() {
+func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/weather/{cep}", GetWeatherByCep).Methods("GET")
 	port := "8081"
@@ -86,7 +86,6 @@ func GetWeatherByCep(w http.ResponseWriter, r *http.Request) {
 		w.Write(js)
 		return
 	}
-	fmt.Println(dadosCidade)
 
 	// Busca o clima da cidade
 	clima, err := buscaClima(strings.ToLower(dadosCidade.Cidade))

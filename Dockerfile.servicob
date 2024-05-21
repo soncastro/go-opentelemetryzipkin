@@ -1,0 +1,13 @@
+# Dockerfile.servicob
+FROM golang:1.21
+
+WORKDIR /app
+
+COPY . .
+
+RUN go mod download
+RUN go build -o servicob servicob.go
+
+EXPOSE 8081
+
+CMD ["./servicob"]

@@ -5,27 +5,10 @@ import (
 	"go.opentelemetry.io/otel/exporters/trace/zipkin"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 	"log"
-	"sync"
 )
 
 func main() {
-
 	initTracer()
-
-	var wg sync.WaitGroup
-	wg.Add(2)
-
-	go func() {
-		defer wg.Done()
-		servicob()
-	}()
-
-	go func() {
-		defer wg.Done()
-		servicoa()
-	}()
-
-	wg.Wait()
 }
 
 func initTracer() {

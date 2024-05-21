@@ -1,9 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
-	"fmt"
 	"github.com/gorilla/mux"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/propagation"
@@ -17,7 +17,7 @@ type InputCEP struct {
 	CEP string `json:"cep"`
 }
 
-func servicoa() {
+func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/cep", processaCEP).Methods("POST")
 	port := "8080"
@@ -31,10 +31,15 @@ func processaCEP(w http.ResponseWriter, req *http.Request) {
 	ctx, processSpan := tracer.Start(ctx, "processaCEP")
 	defer processSpan.End()
 
-	fmt.Println(req.Body)
+	bodyBytes, err := ioutil.ReadAll(req.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	req.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes))
 
 	var cep InputCEP
-	err := json.NewDecoder(req.Body).Decode(&cep)
+	err = json.Unmarshal(bodyBytes, &cep)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -51,7 +56,7 @@ func processaCEP(w http.ResponseWriter, req *http.Request) {
 		cepSpan.End()
 
 		var client http.Client
-		request, err := http.NewRequestWithContext(cepCtx, "GET", "http://localhost:8081/weather/"+cep.CEP, nil)
+		request, err := http.NewRequestWithContext(cepCtx, "GET", "http://servicob:8081/weather/"+cep.CEP, nil)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

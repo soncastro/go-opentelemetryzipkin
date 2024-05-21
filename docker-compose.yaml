@@ -1,10 +1,27 @@
 version: '3'
 services:
+
   main:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.main
+    ports:
+      - "8082:8082"
+
+  servicoa:
+    build:
+      context: .
+      dockerfile: Dockerfile.servicoa
     ports:
       - "8080:8080"
+
+  servicob:
+    build:
+      context: .
+      dockerfile: Dockerfile.servicob
+    ports:
       - "8081:8081"
+
   zipkin:
     image: openzipkin/zipkin
     ports:
