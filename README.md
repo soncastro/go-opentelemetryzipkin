@@ -11,7 +11,7 @@
 - O Postman pode ser uma alternativa de ferramenta para o teste.
 - Acesse pelo browser o endereço http://localhost:9411/zipkin para visualizar os traces da aplicação após os requests.
 
-## Última solicitação de correção (Enviado 20/05/2024 • 13:32 - Gabriel Araujo Carneiro Junior)
+## Última solicitação de correção (Enviado 21/05/2024 • 10:13 - Gabriel Araujo Carneiro Junior)
 - [x] Colocar no padrão: `{ "city: "São Paulo", "temp_C": 28.5, "temp_F": 28.5, "temp_K": 28.5 }`
 - [x] Nesta versão foi conferido que está sendo possível visualizar os traces ao entrar no zipkin na porta 9411.
 
