@@ -1,19 +1,16 @@
 version: '3'
 services:
 
-  main:
-    build:
-      context: .
-      dockerfile: Dockerfile.main
-    ports:
-      - "8082:8082"
-
   servicoa:
     build:
       context: .
       dockerfile: Dockerfile.servicoa
     ports:
       - "8080:8080"
+    depends_on:
+      - zipkin
+    networks:
+      - networkservicos
 
   servicob:
     build:
@@ -21,8 +18,18 @@ services:
       dockerfile: Dockerfile.servicob
     ports:
       - "8081:8081"
+    depends_on:
+      - zipkin
+    networks:
+      - networkservicos
 
   zipkin:
     image: openzipkin/zipkin
     ports:
       - "9411:9411"
+    networks:
+      - networkservicos
+
+networks:
+  networkservicos:
+    driver: bridge
