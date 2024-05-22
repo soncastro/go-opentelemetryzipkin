@@ -12,6 +12,7 @@ import (
 	"go.opentelemetry.io/otel/semconv/v1.4.0"
 	"io/ioutil"
 	"log"
+	"math"
 	"net/http"
 	"net/url"
 	"regexp"
@@ -121,11 +122,15 @@ func GetWeatherByCep(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Println("Clima encontrado para a cidade:", dadosCidade.Cidade)
 
+	tempC := math.Round(convKELtoC(clima.Main.Temp)*10) / 10
+	tempF := math.Round(convKELtoF(clima.Main.Temp)*10) / 10
+	tempK := math.Round(clima.Main.Temp*10) / 10
+
 	resp := WeatherResponse{
 		City:  dadosCidade.Cidade,
-		TempC: convKELtoC(clima.Main.Temp),
-		TempF: convKELtoF(clima.Main.Temp),
-		TempK: clima.Main.Temp,
+		TempC: tempC,
+		TempF: tempF,
+		TempK: tempK,
 	}
 
 	w.Header().Set("Content-Type", "application/json")
